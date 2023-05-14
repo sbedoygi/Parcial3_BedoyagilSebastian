@@ -42,7 +42,7 @@ namespace Sebas_lavadero.DAL
         private async Task PopulateRolesAsync()
         {
             await _userHelper.AddRoleAsync(UserType.Admin.ToString());
-            await _userHelper.AddRoleAsync(UserType.Client.ToString());
+            await _userHelper.AddRoleAsync(UserType.User.ToString());
         }
 
         private async Task PopulateUserAsync(string firstName, string lastName, string email, string phone, string address, string document, UserType userType)
@@ -53,7 +53,7 @@ namespace Sebas_lavadero.DAL
             {
                 user = new User
                 {
-                    CreatedDate = DateTime.Now,
+                  
                     FirstName = firstName,
                     LastName = lastName,
                     Email = email,
