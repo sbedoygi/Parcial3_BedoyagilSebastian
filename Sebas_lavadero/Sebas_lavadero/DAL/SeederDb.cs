@@ -21,7 +21,7 @@ namespace Sebas_lavadero.DAL
             await PopulateServicesAsync();
             await PopulateRolesAsync();
             await PopulateUserAsync("First Name Admin", "Last Name Role", "admin@yopmail.com", "Phone 3002323232", "Add Street Fighter", "Doc 102030", UserType.Admin);
-            await PopulateUserAsync("First Name Client", "Last Name Role", "client@yopmail.com", "Phone 3502323232", "Address Street Fighter 2", "Doc 405060", UserType.Client);
+            await PopulateUserAsync("First Name User", "Last Name Role", "client@yopmail.com", "Phone 3502323232", "Address Street Fighter 2", "Doc 405060", UserType.Client);
 
             await _context.SaveChangesAsync();
         }
