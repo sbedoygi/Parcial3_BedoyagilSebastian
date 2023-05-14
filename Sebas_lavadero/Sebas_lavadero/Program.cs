@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Sebas_lavadero.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<DataBaseContext>(
+    o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // se crea la inyeccion de dependecias 
 
 var app = builder.Build();
 

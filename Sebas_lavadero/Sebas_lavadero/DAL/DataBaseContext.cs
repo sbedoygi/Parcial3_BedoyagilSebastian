@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sebas_lavadero.DAL.Entities;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
 namespace Sebas_lavadero.DAL // se crea la herencia y se estala  los paqutes de framework sacado del video de  clase  11 de abril
 {
-    public class DataBaseContext : DbContext
+    public class DataBaseContext : IdentityDbContext<User>
     {
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
