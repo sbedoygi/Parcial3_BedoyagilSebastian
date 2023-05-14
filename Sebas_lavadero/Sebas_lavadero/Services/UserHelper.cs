@@ -5,17 +5,13 @@ using Sebas_lavadero.Helpers;
 using Sebas_lavadero.Models;
 
 namespace Sebas_lavadero.Services
-{{
+{
     public class UserHelper : IUserHelper
-
     {
         private readonly DataBaseContext _context;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<User> _signInManager;
-
-
-
 
         public UserHelper(DataBaseContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
         {
@@ -24,7 +20,6 @@ namespace Sebas_lavadero.Services
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
-
 
         public async Task AddRoleAsync(string roleName)
         {
@@ -43,29 +38,6 @@ namespace Sebas_lavadero.Services
         {
             return await _userManager.CreateAsync(user, password);
         }
-
-        public async Task<User> AddUserAsync(AddUserViewModel addUserViewModel)
-        {
-            User user = new()
-            {
-                Address = addUserViewModel.Address,
-                Document = addUserViewModel.Document,
-                Email = addUserViewModel.Username,
-                FirstName = addUserViewModel.FirstName,
-                LastName = addUserViewModel.LastName,
-                PhoneNumber = addUserViewModel.PhoneNumber,
-                UserName = addUserViewModel.Username,
-                UserType = addUserViewModel.UserType,
-            };
-
-            IdentityResult result = await _userManager.CreateAsync(user, addUserViewModel.Password);
-            if (result != IdentityResult.Success) return null;
-
-            User newUser = await GetUserAsync(addUserViewModel.Username);
-            await AddUserToRoleAsync(newUser, user.UserType.ToString());
-            return newUser;
-        }
-
 
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
@@ -102,12 +74,10 @@ namespace Sebas_lavadero.Services
         {
             return await _userManager.UpdateAsync(user);
         }
-
-        public Task<User> GetUserAsync(Guid userId)
+        public async Task<User> GetUserAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == userId.ToString());
         }
-
-
     }
 }

@@ -6,8 +6,12 @@ using System.Xml.Linq;
 namespace Sebas_lavadero.DAL.Entities
 {
     public class User : IdentityUser
-    // se realiza copie  y pegue del proyecto satcomerce
+    
     {
+
+       
+
+
         [Display(Name = "Documento")]
         [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

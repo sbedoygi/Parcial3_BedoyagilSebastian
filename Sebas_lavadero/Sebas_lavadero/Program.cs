@@ -1,15 +1,56 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sebas_lavadero.DAL;
+using Sebas_lavadero.DAL.Entities;
+using Sebas_lavadero.Helpers;
+using Sebas_lavadero.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<DataBaseContext>(
-    o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // se crea la inyeccion de dependecias 
+builder.Services.AddDbContext<DataBaseContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddTransient<SeederDb>();
+
+builder.Services.AddScoped<IUserHelper, UserHelper>();
+builder.Services.AddIdentity<User, IdentityRole>(io =>
+{
+    io.User.RequireUniqueEmail = true;
+    io.Password.RequireDigit = false;
+    io.Password.RequiredUniqueChars = 0;
+    io.Password.RequireLowercase = false;
+    io.Password.RequireNonAlphanumeric = false;
+    io.Password.RequireUppercase = false;
+    io.Password.RequiredLength = 6;
+}).AddEntityFrameworkStores<DataBaseContext>();
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Unauthorized";
+    options.AccessDeniedPath = "/Account/Unauthorized";
+});
+
 
 var app = builder.Build();
+
+app.UseRequestLocalization();
+
+SeederData();
+void SeederData()
+{
+    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (IServiceScope? scope = scopedFactory.CreateScope())
+    {
+        SeederDb? service = scope.ServiceProvider.GetService<SeederDb>();
+        service.SeedAsync().Wait();
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -25,6 +66,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
