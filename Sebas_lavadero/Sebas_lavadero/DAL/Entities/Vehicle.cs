@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 
 namespace Sebas_lavadero.DAL.Entities
+{
 
     public class Vehicle : Entity
 {
@@ -24,4 +25,5 @@ namespace Sebas_lavadero.DAL.Entities
     [Display(Name = "Details")]
     public ICollection<VehicleDetail> VehicleDetails { get; set; }
 }
+
 }

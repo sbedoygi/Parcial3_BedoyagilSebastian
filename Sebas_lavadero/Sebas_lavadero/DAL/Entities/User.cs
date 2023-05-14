@@ -28,6 +28,14 @@ namespace Sebas_lavadero.DAL.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Address { get; set; }
 
+        [Display(Name = "Foto")]
+        public Guid ImageId { get; set; }
+
+        [Display(Name = "Foto")]
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://localhost:7158/images/noimage.png"
+            : $"https://sales2023.blob.core.windows.net/users/{ImageId}";
+
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
 
