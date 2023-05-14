@@ -1,18 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Sebas_lavadero.DAL;
 using Sebas_lavadero.DAL.Entities;
+using Sebas_lavadero.Enum;
 
 namespace Sebas_lavadero.Helpers
 {
     public interface IUserHelper
     {
-
         Task<User> GetUserAsync(string email);
 
         Task<IdentityResult> AddUserAsync(User user, string password);
 
-        // Task<User> AddUserAsync(AddUserViewModel addUserViewModel);
+        //Task<User> AddUserAsync(AddUserViewModel addUserViewModel);
 
-        Task AddRoleAsync(string roleName);
+        Task AddRoleAsync(string roleName); //Yo tengo los Roles: Admin y User, estos dos roles los va a agregar en la tabla AspNetRoles
 
         Task AddUserToRoleAsync(User user, string roleName);
 
@@ -26,7 +28,6 @@ namespace Sebas_lavadero.Helpers
 
         Task<IdentityResult> UpdateUserAsync(User user);
 
-        Task<User> GetUserAsync(Guid userId);
-        Task<User> AddUserAsync(AddUserViewModel addUserViewModel);
+        Task<User> GetUserAsync(Guid userId); //Sobrecargado
     }
 }
